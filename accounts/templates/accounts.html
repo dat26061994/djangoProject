@@ -1,0 +1,35 @@
+{% extends "pages/base.html" %} {% block content-block %}
+<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('{{BASE_URL}}media/icons/bg-01.jpg');">
+  <h2 class="ltext-105 cl0 txt-center">
+     Thông tin tài khoản
+  </h2>
+</section>
+
+<section>
+  <div class="container m-t-20 m-b-40">
+    <div class="row">
+      <div class="col-md-3">
+        <p>Xin chào: {{user.get_full_name}}</p>
+
+        <div class="row tab-profile m-t-20">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="{% url 'userProfile' %}" aria-controls="home">Thông tin tài khoản</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile">Thông tin đơn hàng</a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages">Danh sách yêu thích</a></li>
+            <li role="presentation"><a href="#settings" aria-controls="settings">Đổi mật khẩu</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-success " id="messageProfile">
+          <strong>Success!</strong> {{message}}
+        </div>
+        {% endfor %} {% endif %} {%block content-accounts%} {%endblock%}
+      </div>
+    </div>
+    <script type="text/javascript">
+    </script>
+  </div>
+</section>
+{% endblock %}

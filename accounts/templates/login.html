@@ -1,0 +1,44 @@
+{% extends "pages/base.html" %} {% block content-block %}
+
+<!-- Title page -->
+<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('{{BASE_URL}}media/icons/bg-01.jpg');">
+  <h2 class="ltext-105 cl0 txt-center">
+     Login
+  </h2>
+</section>
+
+
+<!-- Content page -->
+<section class="bg0 p-t-75 p-b-120">
+  <div class="container">
+    <div class="row p-b-148">
+      <div class="col-md-7 col-lg-8">
+        <div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
+          <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="username">User Name:</label>
+              <input name="username" type="text" class="form-control" id="username" aria-describedby="textHelp" placeholder="Enter user name">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-11 col-md-5 col-lg-4 m-lr-auto">
+        <div class="how-bor1 ">
+          <div class="hov-img0">
+            <img src="{{BASE_URL}}media/icons/about-01.jpg" alt="IMG">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</section>
+{% endblock %}
