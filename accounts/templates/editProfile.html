@@ -1,39 +1,8 @@
 {% extends "accounts.html" %} {% block content-accounts %}
 <form class="form-control" method="post">
   {%csrf_token%}
-  <div class="form-group">
-    <label for="first_name">Họ:</label>
-    {{userForm.first_name}}
-  </div>
-  <div class="form-group">
-    <label for="last_name">Tên:</label>
-    {{userForm.last_name}}
-  </div>
-  <div class="form-group">
-    <label for="first_name">Email:</label>
-    {%if userForm.errors.email %}
-    <div class="alert alert-danger ">
-      {{ userForm.errors.email }}
-    </div>
-    {% endif %}
-    {{userForm.email}}
-  </div>
-  <div class="form-group">
-    <label for="first_name">Địa chỉ:</label>
-    {{profileForm.address}}
-  </div>
-  <div class="form-group">
-    <label for="first_name">Số điện thoại:</label>
-    {{profileForm.phone}}
-  </div>
-  <div class="form-group">
-    <label for="first_name">Ngày sinh:</label>
-    {{profileForm.birth_day}}
-  </div>
-  <div class="form-group">
-    <label for="first_name">Giới tính:</label>
-    {{profileForm.gender}}
-  </div>
+  {{userForm}}
+  {{profileForm}}
   <button class="btn btn-primary" type="submit" name="button">Lưu</button>
 </form>
 {% endblock %}

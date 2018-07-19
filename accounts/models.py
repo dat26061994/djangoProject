@@ -11,7 +11,7 @@ class UserProfile(models.Model):
         ('Women','Nữ')
     }
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='user')
-    avatar = models.ImageField(upload_to='accounts',null=True)
+    avatar = models.ImageField(upload_to='accounts',null=True,default='accounts/default.png')
     address =  models.CharField(max_length=200,null=True)
     phone = models.CharField(max_length=20)
     birth_day = models.DateField(null=True, blank=True)

@@ -16,15 +16,17 @@
             <li role="presentation" class="active"><a href="{% url 'userProfile' %}" aria-controls="home">Thông tin tài khoản</a></li>
             <li role="presentation"><a href="#profile" aria-controls="profile">Thông tin đơn hàng</a></li>
             <li role="presentation"><a href="#messages" aria-controls="messages">Danh sách yêu thích</a></li>
-            <li role="presentation"><a href="#settings" aria-controls="settings">Đổi mật khẩu</a></li>
+            <li role="presentation"><a href="{% url 'changePassword' %}" aria-controls="settings">Đổi mật khẩu</a></li>
           </ul>
         </div>
       </div>
       <div class="col-md-9">
         {% if messages %} {% for message in messages %}
+        {% if message.tags == 'success' %}
         <div class="alert alert-success " id="messageProfile">
           <strong>Success!</strong> {{message}}
         </div>
+        {%endif%}
         {% endfor %} {% endif %} {%block content-accounts%} {%endblock%}
       </div>
     </div>

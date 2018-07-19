@@ -2,7 +2,13 @@
 <div class="row">
   <div class="col-md-3">
     {% if userprofile.avatar %}
+    <a href="{% url 'editAvatar' %}">
     <img src="{{userprofile.avatar.url}}" class="thumbnail img-circle" alt="Cinque Terre" width="150" height="120" alt="">
+  </a>
+    {% else %}
+    <a href="{% url 'editAvatar' %}">
+      <img src="{{BASE_URL}}media/accounts/default.png" class="thumbnail img-circle" alt="Cinque Terre" width="150" height="120" alt="">
+    </a>
     {% endif %}
   </div>
   <div class="col-md-9">

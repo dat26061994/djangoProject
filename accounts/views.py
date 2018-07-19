@@ -9,6 +9,8 @@ from .form import UserForm,ProfileForm
 from .models import UserProfile
 from datetime import datetime, date, time
 from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 BASE_URL = settings.BASE_URL
@@ -71,3 +73,24 @@ def editProfile(request):
         userForm = UserForm(instance=request.user)
         profileForm = ProfileForm(instance=userprofile)
     return render(request,'editProfile.html',{'BASE_URL':BASE_URL,'userForm':userForm,'profileForm':profileForm,'userprofile':userprofile})
+def editAvatar(request):
+    pass
+def changePassword(request):
+    old_password = User.objects.filter(id=request.user.id).values('password')[0]['password']
+    if request.method == "POST":
+        if not request.user.check_password(request.POST['old_password']):
+            messages.error(request,'Mật khẩu cũ không chính xác!')
+        else:
+            if 8 < len(request.POST['new_password']) < 200 and not request.POST['new_password'].isdigit():
+                if request.POST['new_password'] == request.POST['re_new_password']:
+                    messages.success(request,'Mật khẩu đã được thay đổi!')
+                    return redirect('userProfile')
+                else:
+                    messages.error(request,'Mật khẩu mới không trùng khớp!')
+            else:
+                if len(request.POST['new_password']) < 8 or len(request.POST['new_password']) > 200:
+                    messages.error(request,'Mật khẩu phải từ 8 đến 200 ký tự!')
+                elif request.POST['new_password'].isdigit():
+                    messages.error(request,'Mật khẩu phải chứa ít nhất 1 ký tự!')
+
+    return render(request,'changePassword.html',{'BASE_URL':BASE_URL})
