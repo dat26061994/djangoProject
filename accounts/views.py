@@ -83,6 +83,9 @@ def changePassword(request):
         else:
             if 8 < len(request.POST['new_password']) < 200 and not request.POST['new_password'].isdigit():
                 if request.POST['new_password'] == request.POST['re_new_password']:
+                    u = User.objects.get(pk=request.user.id)
+                    u.set_password(request.POST['re_new_password'])
+                    u.save()
                     messages.success(request,'Mật khẩu đã được thay đổi!')
                     return redirect('userProfile')
                 else:
