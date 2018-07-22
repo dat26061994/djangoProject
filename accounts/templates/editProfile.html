@@ -1,8 +1,8 @@
 {% extends "accounts.html" %} {% block content-accounts %}
-<form class="form-control" method="post">
+<form  method="post">
   {%csrf_token%}
   {{userForm}}
   {{profileForm}}
-  <button class="btn btn-primary" type="submit" name="button">Lưu</button>
+  <button class="btn btn-primary m-t-10" type="submit" name="button">Lưu</button>
 </form>
 {% endblock %}

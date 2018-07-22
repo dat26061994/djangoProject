@@ -8,18 +8,147 @@
 <section>
   <div class="container m-t-20 m-b-40">
     <div class="row">
-      <div class="col-md-3">
-        <p>Xin chào: {{user.get_full_name}}</p>
-
-        <div class="row tab-profile m-t-20">
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="{% url 'userProfile' %}" aria-controls="home">Thông tin tài khoản</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile">Thông tin đơn hàng</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages">Danh sách yêu thích</a></li>
-            <li role="presentation"><a href="{% url 'changePassword' %}" aria-controls="settings">Đổi mật khẩu</a></li>
-          </ul>
-        </div>
-      </div>
+      <div class="col-sm-3 col-md-3">
+              <div class="panel-group" id="accordion">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne ">
+                              </span>Thông tin tài khoản</a>
+                          </h4>
+                      </div>
+                      <div id="collapseOne" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                              <table class="table">
+                                  <tr>
+                                      <td>
+                                          <a href="{% url 'userProfile' %}">Thông tin</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <a href="{% url 'editProfile' %}">Chỉnh sửa</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <a href="">Danh sách yêu thích</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                      </span><a href="{%url 'changePassword'%}">Đổi mật khẩu</a>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-th">
+                              </span>Modules</a>
+                          </h4>
+                      </div>
+                      <div id="collapseTwo" class="panel-collapse collapse">
+                          <div class="panel-body">
+                              <table class="table">
+                                  <tr>
+                                      <td>
+                                          <a href="http://www.jquery2dotnet.com">Orders</a> <span class="label label-success">$ 320</span>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <a href="http://www.jquery2dotnet.com">Invoices</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <a href="http://www.jquery2dotnet.com">Shipments</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <a href="http://www.jquery2dotnet.com">Tex</a>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span class="glyphicon glyphicon-user">
+                              </span>Account</a>
+                          </h4>
+                      </div>
+                      <div id="collapseThree" class="panel-collapse collapse">
+                          <div class="panel-body">
+                              <table class="table">
+                                  <tr>
+                                      <td>
+                                          <a href="http://www.jquery2dotnet.com">Change Password</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <a href="http://www.jquery2dotnet.com">Notifications</a> <span class="label label-info">5</span>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <a href="http://www.jquery2dotnet.com">Import/Export</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <span class="glyphicon glyphicon-trash text-danger"></span><a href="http://www.jquery2dotnet.com" class="text-danger">
+                                              Delete Account</a>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><span class="glyphicon glyphicon-file">
+                              </span>Reports</a>
+                          </h4>
+                      </div>
+                      <div id="collapseFour" class="panel-collapse collapse">
+                          <div class="panel-body">
+                              <table class="table">
+                                  <tr>
+                                      <td>
+                                          <span class="glyphicon glyphicon-usd"></span><a href="http://www.jquery2dotnet.com">Sales</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <span class="glyphicon glyphicon-user"></span><a href="http://www.jquery2dotnet.com">Customers</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <span class="glyphicon glyphicon-tasks"></span><a href="http://www.jquery2dotnet.com">Products</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <span class="glyphicon glyphicon-shopping-cart"></span><a href="http://www.jquery2dotnet.com">Shopping Cart</a>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
       <div class="col-md-9">
         {% if messages %} {% for message in messages %}
         {% if message.tags == 'success' %}

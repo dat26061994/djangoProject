@@ -9,8 +9,11 @@ from .form import UserForm,ProfileForm
 from .models import UserProfile
 from datetime import datetime, date, time
 from django.contrib import messages
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm,UserCreationForm
+from .form import SignupForm,changeAvatarForm
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import login, authenticate
+import datetime
 
 # Create your views here.
 BASE_URL = settings.BASE_URL
@@ -18,21 +21,17 @@ def signup(request):
     BASE_URL = settings.BASE_URL
     EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
     if request.method == 'POST':
-        if request.POST['username'] and request.POST['password'] and request.POST['email'] and 6 <= len(request.POST['username']) < 20 and 6 <= len(request.POST['password']) <20 and EMAIL_REGEX.match(request.POST['email']):
-            if request.POST['password'] == request.POST['repassword']:
-                try:
-                    user = User.objects.get(username=request.POST['username'])
-                    return render(request, 'signup.html', {'error':'User name is exist','BASE_URL':BASE_URL})
-                except User.DoesNotExist:
-                    user = User.objects.create_user(request.POST['username'], password=request.POST['password'], email=request.POST['email'])
-                    auth.login(request,user)
-                    return redirect('home')
-            else:
-                return render(request, 'signup.html', {'error':'Password is not correct','BASE_URL':BASE_URL})
-        else:
-            return render(request, 'signup.html', {'error':'Đã xảy ra lỗi! Vui lòng thử lại','BASE_URL':BASE_URL})
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = request.POST['username']
+            raw_password = request.POST['password1']
+            user = auth.authenticate(username=request.POST['username'],password=request.POST['password1'])
+            auth.login(request, user)
+            return redirect('home')
     else:
-        return render(request, 'signup.html',{'BASE_URL':BASE_URL})
+        form = SignupForm()
+    return render(request, 'signup.html',{'BASE_URL':BASE_URL,'form':form})
 
 
 def login(request):
@@ -43,7 +42,8 @@ def login(request):
             auth.login(request, user)
             return redirect('home')
         else:
-            return render(request, 'login.html',{'error':'User name or Password is not correct','BASE_URL':BASE_URL})
+            messages.error(request,'Tên đăng nhập hoặc mật khẩu không chính xác!')
+            return render(request, 'login.html',{'BASE_URL':BASE_URL})
     else:
         return render(request, 'login.html',{'BASE_URL':BASE_URL})
 
@@ -55,10 +55,18 @@ def logout(request):
 @login_required(login_url="login")
 def userProfile(request):
     userprofile = UserProfile.objects.get(user=request.user)
-    return render(request,'profile.html',{'BASE_URL':BASE_URL,'userprofile':userprofile})
+    if request.method =="POST":
+        form = changeAvatarForm(request.POST,request.FILES,instance=userprofile)
+        if form.is_valid():
+            messages.success(request,'Ảnh đại diện đã được thay đổi!')
+            form.save()
+    else:
+        form = changeAvatarForm()
+    return render(request,'profile.html',{'BASE_URL':BASE_URL,'userprofile':userprofile,'form':form})
 
 def editProfile(request):
     userprofile = UserProfile.objects.get(user=request.user)
+    
     if request.method =="POST":
         userForm = UserForm(request.POST,instance=request.user)
         profileForm = ProfileForm(request.POST,instance=userprofile)

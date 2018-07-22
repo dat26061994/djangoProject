@@ -10,6 +10,11 @@
       <img src="{{BASE_URL}}media/accounts/default.png" class="thumbnail img-circle" alt="Cinque Terre" width="150" height="120" alt="">
     </a>
     {% endif %}
+    <form class="" method="post" enctype="multipart/form-data">
+      {%csrf_token%}
+      {{form}}
+      <button type="submit" name="button" class="btn btn-primary m-t-10">Sửa avatar</button>
+    </form>
   </div>
   <div class="col-md-9">
     <div id="inforProfile">
@@ -41,6 +46,6 @@
           </tr>
         </tbody>
       </table>
-      <button onclick="window.location='{% url 'editProfile' %}'" class="btn btn-primary" type="submit">Chỉnh sửa</button>
+      <!-- <button onclick="window.location='{% url 'editProfile' %}'" class="btn btn-primary" type="submit">Chỉnh sửa</button> -->
     </div>
 {% endblock %}
