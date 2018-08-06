@@ -1,0 +1,51 @@
+{% extends "pages/base.html" %} {% block content-block %}
+<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('{{BASE_URL}}media/icons/bg-01.jpg');">
+
+</section>
+
+<div class="container">
+        <div class="row m-b-20" style="margin-top: 6%">
+            <div class="col-md-8">
+                <h4 class="page-header">Checkout</h4>
+                <form action="." method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}<br>
+                    <input type="hidden" name="total" value="{{cart.get_total}}">
+                    <input type="submit" class="btn btn-primary" value="Submit order">
+                </form>
+            </div>
+            <div class="col-md-4">
+                <div class="page-header">
+                    Your Order
+                </div>
+                <ul class="list-group">
+                    {% for item in cart %}
+                        <li class="list-group-item">
+                        {{ item.quantity }}x {{ item.product.name }}
+                        <span>${{ item.total_price }}</span>
+                        </li>
+                    {% endfor %}
+                    {% if cart.coupon  %}
+                        <li class="list-group-item">
+                          "{{cart.coupon.code}}" ({{cart.coupon.discount}}% off)
+                          <span>- ${{cart.get_discount|floatformat:"2"}}</span>
+                        </li>
+                    {% endif %}
+                    {% if cart.total_price > 600 %}
+                    <li class="list-group-item">
+                      Shipping:
+                      <span>$0</span>
+                    </li>
+                    {% else %}
+                    <li class="list-group-item">
+                      Shipping
+                      <span> $30</span>
+                    </li>
+                    {% endif %}
+                <li class="list-group-item active">Total Cost: ${{ cart.get_total }}</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

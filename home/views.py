@@ -7,6 +7,10 @@ import json
 from django.http import JsonResponse
 from django.core import serializers
 from django.conf import settings
+from django.template.loader import render_to_string
+from cart.forms import CartAddProductForm
+from django.http import Http404
+
 
 # Create your views here.
 def home(request):
@@ -15,13 +19,28 @@ def home(request):
     cats = Category.objects.all()
     products = Product.objects.order_by('created_at')
     galleries = Gallery.objects.all()[:9]
-    paginator  = Paginator(products,3)
+    paginator  = Paginator(products,12)
     page = request.GET.get('page')
     products_view = paginator.get_page(page)
     return render(request, 'pages/home.html',{'slides':slides,'cats':cats,'products':products_view,'galleries':galleries,'BASE_URL':BASE_URL})
 
 def product_detail(request,product_id):
-    product = Product.objects.values('id','name','description','price','quantity','image').get(id=product_id)
-    images = Product_Image.objects.all().filter(product_id=product_id).values('image1','image2','image3')
-    product_detail = Product_Detail.objects.all().filter(product_id=product_id).values('color','size')
-    return JsonResponse({'product':product,'product_image':list(images),'product_detail':list(product_detail)})
+    data = dict()
+    try:
+        product = Product.objects.values('id','name','description','price','quantity','image').get(id=product_id)
+    except Product.DoesNotExist:
+        raise Http404("Product does not exist")
+    try:
+        images = Product_Image.objects.values('image1','image2','image3').get(product_id=product_id)
+    except Product_Image.DoesNotExist:
+        raise Http404("Product Image does not exist")
+    try:
+        product_detail = Product_Detail.objects.values('color','size').get(product_id=product_id)
+    except Product_Detail.DoesNotExist:
+        raise Http404("product_detail does not exist")
+    cart_add_form = CartAddProductForm()
+    data['product'] = product
+    data['images'] = images
+    data['product_detail'] = product_detail
+    data['html'] = render_to_string('pages/prDetail.html',{'product':product,'images':images,'product_detail':product_detail,'cart_add_form':cart_add_form},request=request)
+    return JsonResponse(data)

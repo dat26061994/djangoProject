@@ -1,0 +1,34 @@
+<!-- <div class="pagination flex-c-m flex-w w-full p-t-38">
+  {% if review %}
+  {% if review.has_previous %}
+  <a id="act_page_review" data-url="?page={{ review.previous_page_number }}" href="javascript:void(0)" class="
+   flex-c-m how-pagination1 trans-04 m-all-7"><i class="fa fa-arrow-left"></i></a>
+   {% endif %}
+    {% for i in review.paginator.page_range %}
+    {% if review.number == i %}
+  <a href="javascript:void(0)" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+    {{i}}
+  </a>
+   {% else %}
+  <a id="act_page_review" data-url="?page={{ i }}" href="javascript:void(0)" class="act_page_review flex-c-m how-pagination1 trans-04 m-all-7">
+    {{i}}
+  </a> {% endif %} {% endfor %} {% if review.has_next %}
+  <a id="act_page_review" data-url="?page={{ review.next_page_number }}" href="javascript:void(0)" class="act_page_review flex-c-m how-pagination1 trans-04 m-all-7"><i class="fa fa-arrow-right"></i></a>
+  {% endif %}
+  {% endif %}
+</div> -->
+
+<div class="pagination flex-c-m flex-w w-full p-t-38">
+  {% if review %}
+  <a id="act_page_review " data-url="" href="javascript:void(0)" class="previous next-pre dis-none-impor act_page_review
+   flex-c-m how-pagination1 trans-04 m-all-7"><i class="fa fa-arrow-left"></i></a>
+{% for i in review.paginator.page_range %}
+<a id="act_page_review_{{i}}" value="{{i}}" data-url="?page={{ i }}" href="javascript:void(0)" class="act_page_review flex-c-m how-pagination1 trans-04 m-all-7">
+  {{i}}
+</a>
+
+{% endfor %}
+<a id="act_page_review " data-url="" href="javascript:void(0)" class="next next-pre act_page_review
+ flex-c-m how-pagination1 trans-04 m-all-7"><i class="fa fa-arrow-right"></i></a>
+ {% endif %}
+</div>

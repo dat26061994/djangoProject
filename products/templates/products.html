@@ -8,7 +8,7 @@
       {% if cats %}
       <div class="flex-w flex-l-m filter-tope-group m-tb-10">
         <button onclick="window.location='{% url 'products' %}'" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-          Sản phẩm
+          Categories
         </button> {% for cat in cats %}
         <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" onclick="window.location='{% url 'products_cat' cat.id %}'">
           {{ cat.name }}
@@ -19,12 +19,12 @@
       <div class="flex-w flex-c-m m-tb-10">
         <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
           <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
-          <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i> Lọc
+          <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i> Filter
         </div>
 
         <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
           <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-          <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i> Tìm kiếm
+          <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i> Search
         </div>
       </div>
 
@@ -34,7 +34,7 @@
           <form method="post" style="Width:90%;">
             {% csrf_token %}
             <div class="row">
-              <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+              <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04" style="float:left;">
                 <i class="zmdi zmdi-search"></i>
               </button>
 
@@ -51,31 +51,31 @@
         <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
           <div class=" p-r-15 p-b-27">
             <div class="mtext-102 cl2 p-b-15">
-              Giá
+              Price
             </div>
               <form id="form-search-price" method="post">
             <div class="row funkyradio">
 
                 {% csrf_token %}
-                <div class="funkyradio-primary">
+                <div class="funkyradio-primary col-md-3 col-sm-3 col-xs-4">
                   <input type="radio" name="price-pr" id="radio" value="" checked/>
-                  <label for="radio">Tất cả</label>
+                  <label for="radio">All</label>
                 </div>
-                <div class="funkyradio-primary">
-                  <input type="radio" name="price-pr" id="radio1" value="0-100000" />
-                  <label for="radio1">Dưới 100.000 VNĐ</label>
+                <div class="funkyradio-primary col-md-3 col-sm-3 col-xs-4">
+                  <input type="radio" name="price-pr" id="radio1" value="0-100" />
+                  <label for="radio1">Less than $100</label>
                 </div>
-                <div class="funkyradio-primary">
-                  <input type="radio" name="price-pr" id="radio2" value="100000-500000" />
-                  <label for="radio2">100.000 - 500.000 VNĐ</label>
+                <div class="funkyradio-primary col-md-3 col-sm-3 col-xs-4">
+                  <input type="radio" name="price-pr" id="radio2" value="100-500" />
+                  <label for="radio2">$100 - $500</label>
                 </div>
-                <div class="funkyradio-primary">
-                  <input type="radio" name="price-pr" id="radio3" value="500000-1000000" />
-                  <label for="radio3">500.000 - 1.000.000 VNĐ</label>
+                <div class="funkyradio-primary col-md-3 col-sm-3 col-xs-4">
+                  <input type="radio" name="price-pr" id="radio3" value="500-1000" />
+                  <label for="radio3">$500 - $1.000</label>
                 </div>
-                <div class="funkyradio-primary">
-                  <input type="radio" name="price-pr" id="radio4" value="1000000-10000000000" />
-                  <label for="radio4">Trên 1.000.000 VNĐ</label>
+                <div class="funkyradio-primary col-md-3 col-sm-3 col-xs-4">
+                  <input type="radio" name="price-pr" id="radio4" value="1000-10000" />
+                  <label for="radio4">More than $1.000</label>
                 </div>
 
             </div>
@@ -91,11 +91,12 @@
       <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{ pr.category }}">
         <!-- Block2 -->
         <div class="block2">
-          <div class="block2-pic hov-img0">
+          
+          <div id="viewmore" class="block2-pic hov-img0">
             <img src="{{ pr.image.url }}" alt="IMG-PRODUCT">
-            <a href="#" onclick="showModal({{pr.id}})" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-              Chi tiết
-            </a>
+            <button  data-url="{% url 'product_detail' pr.id %}" class="show_modal_pr block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+              View more
+            </button>
           </div>
 
           <div class="block2-txt flex-w flex-t p-t-14">
@@ -105,7 +106,7 @@
               </a>
 
               <span class="stext-105 cl3">
-                {{ pr.get_price }} VNĐ
+                ${{ pr.price }}
               </span>
             </div>
 
@@ -120,7 +121,7 @@
       </div>
 
       {% endfor %}
-      
+
     </div>
     <!-- Pagination -->
     <div class="flex-c-m flex-w w-full p-t-38">
@@ -138,10 +139,10 @@
     {% else %}
     <div class="row isotope-grid">
       <div class="" style="margin:auto;">
-        <h2>Không có sản phẩm !!</h2>
+        <h2>No product !!</h2>
         <div class="flex-c-m flex-w w-full p-t-45">
           <button onclick="back()" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-          <i class="m-r-5 fa fa-arrow-left" aria-hidden="true"></i> Quay lại
+          <i class="m-r-5 fa fa-arrow-left" aria-hidden="true"></i> Back
         </button>
         </div>
       </div>

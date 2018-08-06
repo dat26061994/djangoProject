@@ -10,7 +10,7 @@ class UserProfile(models.Model):
         ('Men','Nam'),
         ('Women','Nữ')
     }
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='user')
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='user_profile')
     avatar = models.ImageField(upload_to='accounts',null=True,default='accounts/default.png')
     address =  models.CharField(max_length=200,null=True)
     phone = models.CharField(max_length=20)

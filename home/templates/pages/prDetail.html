@@ -1,0 +1,77 @@
+
+<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+
+
+            <div class="row">
+              <div class="col-md-6 col-lg-7 p-b-30">
+                <div class="p-l-25 p-r-30 p-lr-0-lg">
+                  <div class="">
+                    <div class="col-md-2 previews">
+                      <a id="img-detail" href="javascript:void(0)" class="selected thumbnail m-b-2" data-full="{{BASE_URL}}media/{{product.image}}">
+                      <img src="{{BASE_URL}}media/{{product.image}}" style="width:100%;"/></a>
+                      <a href="javascript:void(0)"  data-full="{{BASE_URL}}media/{{images.image1}}" class="thumbnail m-b-2"><img src="{{BASE_URL}}media/{{images.image1}}" /></a>
+                      <a href="javascript:void(0)"  data-full="{{BASE_URL}}media/{{images.image2}}" class="thumbnail m-b-2"><img src="{{BASE_URL}}media/{{images.image2}}" /></a>
+                      <a href="javascript:void(0)"  data-full="{{BASE_URL}}media/{{images.image3}}" class="thumbnail m-b-2"><img style="Width:100%;" src="{{BASE_URL}}media/{{images.image3}}" /></a>
+                    </div>
+                    <div class=" col-md-8 full thumbnail">
+                      <img src="{{BASE_URL}}media/{{product.image}}" style="width:100%;" /> </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-5 p-b-30">
+                <div id="content-pr" class="p-r-50 p-t-5 p-lr-0-lg">
+                  <h4 id="name_product_detail" class="mtext-105 cl2 js-name-detail p-b-14">
+                      {{product.name}}
+                  </h4>
+
+                  <span id="price_product_detail" class="mtext-106 cl2">
+                    ${{product.price}}
+                  </span>
+
+                  <p id="des_product_detail" class="stext-102 cl3 p-t-23">
+                    {{product.description}}
+                  </p>
+                <form class="addcart" data-url="{% url 'cart:cart_addajax' product.id  %}"  method="post">
+                  {% csrf_token %}
+                  <input type="hidden" id="product_id" name="product_id" value="">
+                  <div class="p-t-33">
+                    {{cart_add_form}}
+                    <div class="flex-w flex-r-m p-b-10">
+                      <div class="size-204 flex-w flex-m respon6-next">
+                        <button type="submit" id="add-cart123"  class=" m-t-20 flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                          Add to cart
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+
+                  <div class="flex-w flex-m p-l-100 p-t-40 respon7">
+                    <div class="flex-m bor9 p-r-10 m-r-11">
+                      <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+                        <i class="zmdi zmdi-favorite"></i>
+                      </a>
+                    </div>
+
+                    <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+                      <i class="fa fa-facebook"></i>
+                    </a>
+
+                    <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+                      <i class="fa fa-twitter"></i>
+                    </a>
+
+                    <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
+                      <i class="fa fa-google-plus"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>

@@ -1,0 +1,31 @@
+{% extends "accounts.html" %} {% block content-accounts %}
+    <div class="row">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <th scope="row">{{order.order.id}}</th>
+            <td><img src="{{BASE_URL}}media/{{order.product.image}}" width="60" height="80" alt=""></td>
+            <td>{{order.product.name}}</td>
+            <td>{{order.quantity}}</td>
+            <td>${{order.get_cost}}</td>
+            <td>{{order.order.get_datecreated}}</td>
+            <td>${{order.order.get_total_cost}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {{orders.order.get_total_cost}}
+    </div>
+{% endblock %}

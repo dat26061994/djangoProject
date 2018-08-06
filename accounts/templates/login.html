@@ -3,7 +3,7 @@
 <!-- Title page -->
 <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('{{BASE_URL}}media/icons/bg-01.jpg');">
   <h2 class="ltext-105 cl0 txt-center">
-     Đăng nhập
+     Login
   </h2>
 </section>
 
@@ -17,21 +17,21 @@
           {% if messages %} {% for message in messages %}
           {% if message.tags == 'error' %}
           <div class="alert alert-danger " id="messageProfile">
-            <strong>Lỗi!</strong> {{message}}
+            <strong>Error!</strong> {{message}}
           </div>
           {%endif%}
           {% endfor %} {% endif %}
           <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
             <div class="form-group">
-              <label for="username">Tên đăng nhập:</label>
+              <label for="username">User name:</label>
               <input name="username" type="text" class="form-control" id="username" aria-describedby="textHelp" >
             </div>
             <div class="form-group">
-              <label for="password">Mật khẩu</label>
+              <label for="password">Password</label>
               <input name="password" type="password" class="form-control" id="password" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-primary">Đăng nhập</button>
+            <button type="submit" class="btn btn-primary">Login  </button><a href="{% url 'password_reset' %}"> Forgotten Your Password </a>
           </form>
         </div>
       </div>

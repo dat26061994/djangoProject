@@ -9,7 +9,7 @@
 	<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}" />
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
 	<!--===============================================================================================-->
@@ -60,23 +60,27 @@
 						<ul class="main-menu">
 
 							<li>
-								<a href="{% url 'products' %}">Cửa hàng</a>
+								<a href="{% url 'products' %}">Shop </a>
 							</li>
 
-							<li class="label1" data-label1="hot">
+							<!-- <li class="label1" data-label1="hot">
 								<a href="shoping-cart.html">Thanh toán</a>
+							</li> -->
+
+							{% for cat in cates %}
+							<li class="">
+								<a href="{% url 'products_cat' cat.id %}" class="">
+									{{cat.name}}
+								</a>
+							</li>
+							{% endfor %}
+
+							<li>
+								<a href="{% url 'about' %}">About us</a>
 							</li>
 
 							<li>
-								<a href="blog.html">Blog</a>
-							</li>
-
-							<li>
-								<a href="{% url 'about' %}">Giới thiệu</a>
-							</li>
-
-							<li>
-								<a href="{% url 'contact' %}">Liên hệ</a>
+								<a href="{% url 'contact' %}">Contact</a>
 							</li>
 						</ul>
 					</div>
@@ -85,11 +89,12 @@
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
 						{% if user.is_authenticated %}
 						<div>
-							<button class="user-info" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="button">{{ user.get_username }}</button>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="{% url 'userProfile' %}"><i class="fa fa-user" aria-hidden="true"></i>Thông tin tài khoản</a>
-								<button class="dropdown-item" class="logout" type="button" name="button" onclick="javascript:{document.getElementById('logout').submit()}"><i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất</button>
-							</div>
+							<button class="user-info" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="button">{{ user.get_username }}<span class="caret"></span></button>
+							<ul class="dropdown-menu" style="top:auto;left:auto;">
+								<li><a class="dropdown-item" href="{% url 'userProfile' %}"><i class="fa fa-user" aria-hidden="true"></i>Infomation Account</a></li>
+								<li role="separator" class="divider"></li>
+								<li><button class="dropdown-item m-l-20" class="logout" type="button" name="button" onclick="javascript:{document.getElementById('logout').submit()}"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</button></li>
+							</ul>
 						</div>
 						<form id="logout" method="POST" action="{% url 'logout' %}">
 							{% csrf_token %}
@@ -97,18 +102,24 @@
 						</form>
 						{% else %}
 						<div class="login">
-							<button type="button" name="button" onclick="window.location='{% url 'login' %}';">Đăng nhập</button>
+							<button type="button" name="button" onclick="window.location='{% url 'login' %}';">Login</button>
 						</div>
 						<div class="signup">
-							<button type="button" name="button" onclick="window.location='{% url 'signup' %}';">Đăng ký</button>
+							<button type="button" name="button" onclick="window.location='{% url 'signup' %}';">Signup</button>
 						</div>
 						{% endif %}
+						{% if count_cart > 0 %}
 						<div class="flex-c-m h-full p-r-25 bor6">
-							<div class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="2">
+							<!-- <div id="count_cart" class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="{{count_cart}}">
 								<i class="zmdi zmdi-shopping-cart"></i>
-							</div>
+							</div> -->
+							<button class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 show_cart icon-header-noti" type="button" data-notify="{{count_cart}}" name="button"><i class="zmdi zmdi-shopping-cart"></i></button>
 						</div>
-
+						{% else %}
+						<div class="flex-c-m h-full p-r-25 bor6">
+							<button class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 show_cart" type="button"  name="button"><i class="zmdi zmdi-shopping-cart"></i></button>
+						</div>
+						{% endif %}
 						<div class="flex-c-m h-full p-lr-19">
 							<div class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 js-show-sidebar">
 								<i class="zmdi zmdi-menu"></i>
@@ -123,16 +134,21 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->
 			<div class="logo-mobile">
-				<a href="{% url 'home' %}"><img src="{{BASE_URL}}/media/icons/logo-01.png" alt="IMG-LOGO"></a>
+				<a href="{% url 'home' %}"><img src="{{BASE_URL}}media/icons/logo-01.png" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Icon header -->
 			<div class="wrap-icon-header flex-w flex-r-m h-full m-r-15">
+				{% if count_cart > 0 %}
 				<div class="flex-c-m h-full p-r-5">
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="2">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
+					<button class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 show_cart icon-header-noti" type="button" data-notify="{{count_cart}}" name="button"><i class="zmdi zmdi-shopping-cart"></i></button>
 				</div>
+				{%else%}
+				<div class="flex-c-m h-full p-r-5">
+					<button class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 show_cart" type="button"  name="button"><i class="zmdi zmdi-shopping-cart"></i></button>
+				</div>
+				{%endif%}
+
 			</div>
 
 			<!-- Button show menu -->
@@ -150,23 +166,27 @@
 
 
 				<li>
-					<a href="{% url 'products' %}">Cửa hàng</a>
+					<a href="{% url 'products' %}">Shop</a>
 				</li>
 
-				<li>
+				<!-- <li>
 					<a href="shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+				</li> -->
+
+				{% for cat in cates %}
+				<li class="">
+					<a href="{% url 'products_cat' cat.id %}" class="">
+						{{cat.name}}
+					</a>
+				</li>
+				{% endfor %}
+
+				<li>
+					<a href="{% url 'about' %}">About</a>
 				</li>
 
 				<li>
-					<a href="blog.html">Blog</a>
-				</li>
-
-				<li>
-					<a href="about.html">About</a>
-				</li>
-
-				<li>
-					<a href="contact.html">Contact</a>
+					<a href="{% url 'contact' %}">Contact</a>
 				</li>
 			</ul>
 		</div>
@@ -203,39 +223,39 @@
 				<ul class="sidebar-link w-full">
 					<li class="p-b-13">
 						<a href="{% url 'home' %}" class="stext-102 cl2 hov-cl1 trans-04">
-							Trang chủ
+							Homepage
 						</a>
 					</li>
 
 					<li class="p-b-13">
-						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+						<a href="{% url 'wishlist' %}" class="stext-102 cl2 hov-cl1 trans-04">
 							My Wishlist
 						</a>
 					</li>
 
 					<li class="p-b-13">
-						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+						<a href="{% url 'userProfile' %}" class="stext-102 cl2 hov-cl1 trans-04">
 							My Account
 						</a>
 					</li>
 
 					<li class="p-b-13">
-						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+						<a href="{% url 'ordersInfor' %}" class="stext-102 cl2 hov-cl1 trans-04">
 							Track Oder
 						</a>
 					</li>
 
-					<li class="p-b-13">
+					<!-- <li class="p-b-13">
 						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
 							Refunds
 						</a>
-					</li>
+					</li> -->
 
-					<li class="p-b-13">
+					<!-- <li class="p-b-13">
 						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
 							Help & FAQs
 						</a>
-					</li>
+					</li> -->
 				</ul>
 
 				<div class="sidebar-gallery w-full p-tb-30">
@@ -266,88 +286,16 @@
 			</div>
 		</div>
 	</aside>
+	<div class="modal right fade" id="show_modal_cart">
+	  <div class="modal-dialog dialog-cart ">
+	    <div class="modal-content">
+				{% include 'pages/cartBase.html' %}
+	    </div>
+	  </div>
+	</div>
 	<div class="wrap-header-cart js-panel-cart">
 		<div class="s-full js-hide-cart"></div>
 
-		<div class="header-cart flex-col-l p-l-65 p-r-25">
-			<div class="header-cart-title flex-w flex-sb-m p-b-8">
-				<span class="mtext-103 cl2">
-				 Your Cart
-			 </span>
-
-				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
-					<i class="zmdi zmdi-close"></i>
-				</div>
-			</div>
-
-			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full">
-					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-01.jpg" alt="IMG">
-						</div>
-
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-							 White Shirt Pleat
-						 </a>
-
-							<span class="header-cart-item-info">
-							 1 x $19.00
-						 </span>
-						</div>
-					</li>
-
-					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-02.jpg" alt="IMG">
-						</div>
-
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-							 Converse All Star
-						 </a>
-
-							<span class="header-cart-item-info">
-							 1 x $39.00
-						 </span>
-						</div>
-					</li>
-
-					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-03.jpg" alt="IMG">
-						</div>
-
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-							 Nixon Porter Leather
-						 </a>
-
-							<span class="header-cart-item-info">
-							 1 x $17.00
-						 </span>
-						</div>
-					</li>
-				</ul>
-
-				<div class="w-full">
-					<div class="header-cart-total w-full p-tb-40">
-						Total: $75.00
-					</div>
-
-					<div class="header-cart-buttons flex-w w-full">
-						<a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-						 View Cart
-					 </a>
-
-						<a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-						 Check Out
-					 </a>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<!-- Cart -->
 	{% block content-block %} {% block slider %}
@@ -358,134 +306,24 @@
 	<!-- Product -->
 	{% endblock %} {% endblock %}
 	<!-- Footer -->
-	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
-		<div class="overlay-modal1 js-hide-modal1"></div>
-
-		<div class="container">
-			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-				<button class="how-pos3 hov3 trans-04 js-hide-modal1">
-					<img src="{{BASE_URL}}media/icons/icon-close.png" alt="CLOSE">
-				</button>
-
-				<div class="row">
-					<div class="col-md-6 col-lg-7 p-b-30">
-						<div class="p-l-25 p-r-30 p-lr-0-lg">
-							<div class="row gallery">
-								<div class="col-md-2 previews">
-									<a id="img-detail" href="javascript:void(0)" class="selected" data-full="">
-									<img src="" style="width:100%;"/></a>
-									<a href="javascript:void(0)" id="img1" data-full=""><img src="" /></a>
-									<a href="javascript:void(0)" id="img2" data-full=""><img src="" /></a>
-									<a href="javascript:void(0)" id="img3" data-full=""><img style="Width:100%;" src="" /></a>
-								</div>
-								<div class=" col-md-9 full">
-									<img src="" style="width:100%;" /> </div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-6 col-lg-5 p-b-30">
-						<div class="p-r-50 p-t-5 p-lr-0-lg">
-							<h4 id="name_product_detail" class="mtext-105 cl2 js-name-detail p-b-14">
-
-							</h4>
-
-							<span id="price_product_detail" class="mtext-106 cl2">
-							</span>
-
-							<p id="des_product_detail" class="stext-102 cl3 p-t-23">
-							</p>
-
-							<div class="p-t-33">
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">
-										Size
-									</div>
-
-									<div class="size-204 respon6-next">
-										<div id="select-size" class="rs1-select2 bg0">
-											<select class="form-control" name="time">
-												<option>Chọn size</option>
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">
-										Color
-									</div>
-
-									<div class="size-204 respon6-next">
-										<div id="select-color" class="rs1-select2 bg0">
-											<select class="form-control" name="time">
-												<option>Chọn màu</option>
-
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-204 flex-w flex-m respon6-next">
-										<div class="wrap-num-product flex-w m-r-20 m-tb-10">
-											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-minus"></i>
-											</div>
-
-											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
-
-											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-plus"></i>
-											</div>
-										</div>
-
-										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-											Thêm giỏ hàng
-										</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
-								<div class="flex-m bor9 p-r-10 m-r-11">
-									<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-										<i class="zmdi zmdi-favorite"></i>
-									</a>
-								</div>
-
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
-									<i class="fa fa-facebook"></i>
-								</a>
-
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
-									<i class="fa fa-twitter"></i>
-								</a>
-
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-									<i class="fa fa-google-plus"></i>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="modal fade" id="show_modal_pr123">
+	  <div style="top:70px;" class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	    </div>
+	  </div>
 	</div>
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-lg-3 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
-						Danh mục sản phẩm
+						CategoriesSign
 					</h4>
 
 					<ul>
 						{% for cat in cats %}
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'products_cat' cat.id %}" class="stext-107 cl7 hov-cl1 trans-04">
 								{{cat.name}}
 							</a>
 						</li>
@@ -500,16 +338,16 @@
 
 					<ul>
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'ordersInfor' %}" class="stext-107 cl7 hov-cl1 trans-04">
 								Track Order
 							</a>
 						</li>
 
-						<li class="p-b-10">
+						<!-- <li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
 								Returns
 							</a>
-						</li>
+						</li> -->
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
@@ -572,23 +410,23 @@
 			<div class="p-t-40">
 				<div class="flex-c-m flex-w p-b-18">
 					<a href="#" class="m-all-1">
-						<img src="images/icons/icon-pay-01.png" alt="ICON-PAY">
+						<img src="{{BASE_URL}}media/icons/icon-pay-01.png" alt="ICON-PAY">
 					</a>
 
 					<a href="#" class="m-all-1">
-						<img src="images/icons/icon-pay-02.png" alt="ICON-PAY">
+						<img src="{{BASE_URL}}media/icons/icon-pay-02.png" alt="ICON-PAY">
 					</a>
 
 					<a href="#" class="m-all-1">
-						<img src="images/icons/icon-pay-03.png" alt="ICON-PAY">
+						<img src="{{BASE_URL}}media/icons/icon-pay-03.png" alt="ICON-PAY">
 					</a>
 
 					<a href="#" class="m-all-1">
-						<img src="images/icons/icon-pay-04.png" alt="ICON-PAY">
+						<img src="{{BASE_URL}}media/icons/icon-pay-04.png" alt="ICON-PAY">
 					</a>
 
 					<a href="#" class="m-all-1">
-						<img src="images/icons/icon-pay-05.png" alt="ICON-PAY">
+						<img src="{{BASE_URL}}media/icons/icon-pay-05.png" alt="ICON-PAY">
 					</a>
 				</div>
 
@@ -620,7 +458,7 @@
 	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
-	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
 	<script>
@@ -689,104 +527,16 @@
 
 		/*---------------------------------------------*/
 
-		$('.js-addcart-detail').each(function() {
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function() {
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
+		// $('.js-addcart-detail').each(function() {
+		// 	var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+		// 	$(this).on('click', function() {
+		// 		swal(nameProduct, "is added to cart !", "success");
+		// 	});
+		// });
 	</script>
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
-	<script>
-		window.onload = function() {
-			$(document).ready(function() {
-				$("#menu-toggle").click(function(e) {
-					e.preventDefault();
-					$("#wrapper").toggleClass("active");
-				});
-				$("#editinfor").hide();
-				$("#btnEditInfo").click(function(){
-					$("#inforProfile").hide();
-        	$("#editinfor").show();
-    		});
-				$("#btnInfo").click(function(){
-					$("#inforProfile").show();
-        	$("#editinfor").hide();
-    		});
-				$('#messageProfile').show().delay(5000).fadeOut();
-				$('#id_gender').addClass('form-control')
-				$('.previews a').click(function() {
-					var largeImage = $(this).attr('data-full');
-					$('.selected').removeClass();
-					$(this).addClass('selected');
-					$('.full img').hide();
-					$('.full img').attr('src', largeImage);
-					$('.full img').fadeIn();
-				}); // closing the listening on a click
-				$('.full img').on('click', function() {
-					var modalImage = $(this).attr('src');
-					$.fancybox.open(modalImage);
-				});
-
-				$('input[name=price-pr]').change(function() {
-					console.log(11);
-					$('#form-search-price').submit();
-				});
-			});
-		}
-		var BASE_URL = window.location.origin;
-
-		function showModal(id) {
-			$.get(BASE_URL + "/product/" + id, function(data, status) {
-				product = data.product;
-				product_image = data.product_image[0];
-				product_detail = data.product_detail[0];
-				$("#name_product_detail").html(product.name);
-				$("#price_product_detail").html(product.price.toLocaleString() + " VNĐ");
-				$("#des_product_detail").html(product.description);
-				$("#img-detail").attr('data-full', BASE_URL + '/media/' + product.image);
-				$("#img-detail img").attr('src', BASE_URL + '/media/' + product.image);
-				$(".full img").attr('src', BASE_URL + '/media/' + product.image);
-				var i = 1;
-				console.log(data);
-				if (product_detail) {
-					$.each(product_detail.color, function(k, v) {
-						$("#select-color select").append('<option value=' + v + '>' + v + '</option>')
-					});
-					$.each(product_detail.size, function(k, v) {
-						$("#select-size select").append('<option value=' + v + '>' + v + '</option>')
-					});
-				};
-				if (product_image) {
-					$.each(product_image, function(key, value) {
-						$("#img" + i + " img").attr('src', BASE_URL + '/media/' + value);
-						$("#img" + i).attr('data-full', BASE_URL + '/media/' + value);
-						i++
-					});
-				} else {
-					for (var i = 1; i < 4; i++) {
-						$("#img" + i + " img").attr('src', BASE_URL + '/media/products/image-none.png');
-						$("#img" + i).attr('data-full', BASE_URL + '/media/products/image-none.png');
-					}
-				}
-			});
-		}
-
-		$('.js-pscroll').each(function() {
-			$(this).css('position', 'relative');
-			$(this).css('overflow', 'hidden');
-			var ps = new PerfectScrollbar(this, {
-				wheelSpeed: 1,
-				scrollingThreshold: 1000,
-				wheelPropagation: false,
-			});
-
-			$(window).on('resize', function() {
-				ps.update();
-			})
-		});
-	</script>
+	<script src="{% static 'js/myjs.js' %}"></script>
 	<!--===============================================================================================-->
 	<script src="{% static 'js/main.js' %}"></script>
 

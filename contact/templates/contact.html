@@ -3,30 +3,41 @@
 <!-- Title page -->
 <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('{{BASE_URL}}media/icons/bg-01.jpg');">
   <h2 class="ltext-105 cl0 txt-center">
-     Liên hệ
+     Contact
   </h2>
 </section>
 
 <section class="bg0 p-t-104 p-b-116">
   <div class="container">
     <div class="flex-w flex-tr">
+
       <div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
-        <form>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success">
+          <strong>Success!</strong> {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form action="{% url 'send' %}" method="post">
+          {% csrf_token %}
           <h4 class="mtext-105 cl2 txt-center p-b-30">
-            Gửi tin nhắn cho chúng tôi
+            Send Us A Message
           </h4>
 
-          <div class="bor8 m-b-20 how-pos4-parent">
-            <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="email" placeholder="Địa chỉ Email của bạn">
+          <div class=" bor8 m-b-20 how-pos4-parent">
+            <!-- <input class="form-control stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="email" placeholder="Your email address"> -->
+            {{form.from_email}}
             <img class="how-pos4 pointer-none" src="{{BASE_URL}}media/icons/icon-email.png" alt="ICON">
           </div>
 
           <div class="bor8 m-b-30">
-            <textarea class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" name="msg" placeholder="Chúng tôi có thể giúp gì cho bạn?"></textarea>
+            <!-- <textarea class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" name="msg" placeholder="How Can We Help?"></textarea> -->
+            {{form.message}}
           </div>
 
-          <button class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
-            Gửi
+          <button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+            Send
           </button>
         </form>
       </div>
@@ -39,7 +50,7 @@
 
           <div class="size-212 p-t-2">
             <span class="mtext-110 cl2">
-              Địa chỉ
+              Address
             </span>
 
             <p class="stext-115 cl6 size-213 p-t-18">
@@ -55,7 +66,7 @@
 
           <div class="size-212 p-t-2">
             <span class="mtext-110 cl2">
-              SĐT liên hệ
+              Lets Talk
             </span>
 
             <p class="stext-115 cl1 size-213 p-t-18">

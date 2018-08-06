@@ -3,7 +3,7 @@
 <!-- Title page -->
 <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('{{BASE_URL}}media/icons/bg-01.jpg');">
   <h2 class="ltext-105 cl0 txt-center">
-     Đăng ký
+     Signup
   </h2>
 </section>
 
@@ -15,7 +15,8 @@
         <div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
           <form method="POST" >
             {% csrf_token %}
-            <div class="form-group">
+            {{form.as_table }}
+            <!-- <div class="form-group">
               <label for="username">Tên đăng nhập:</label>
               <span class="text-danger">{{form.username.errors}}</span>
               {{form.username}}
@@ -34,8 +35,8 @@
               <label for="repassword">Xác nhận mật khẩu</label>
               <span class="text-danger">{{form.password2.errors}}</span>
               {{form.password2}}
-            </div>
-            <button type="submit" class="btn btn-primary">Đăng ký</button>
+            </div> -->
+            <button type="submit" class="m-t-10 btn btn-primary">Signup</button>
           </form>
         </div>
       </div>

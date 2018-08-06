@@ -1,0 +1,56 @@
+{% extends "accounts.html" %} {% block content-accounts %}
+<div class="row">
+  {% for order in orders %}
+  <div class="orderManager">
+    <div class="row header_order">
+      <div class="col-md-3">
+        <a href="{% url 'orderDetail' order.id %}">#{{order.id}}</a>
+      </div>
+      <div class="col-md-6">
+
+      </div>
+      <div class="col-md-3 date_order">
+        <span>Date: </span>{{order.get_datecreated}}
+      </div>
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Image</th>
+          <th scope="col">Product</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in orderItems %}
+          {% if item.order_id == order.id%}
+        <tr>
+          <th scope="row"></th>
+          <td><img src="{{BASE_URL}}media/{{item.product.image}}" width="60" height="80" alt=""></td>
+          <td>{{item.product.name}}</td>
+          <td>{{item.quantity}}</td>
+          <td>${{item.get_cost}}</td>
+          <td>{{item.order.get_datecreated}}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Total: </td>
+          <td>${{order.total}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+  {% endfor %}
+</div>
+{% endblock %}

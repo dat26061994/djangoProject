@@ -1,0 +1,19 @@
+{% for item in wishlist %}
+<tr>
+  <td><img src="{{item.product.image.url}}" width="60" height="80" alt=""></td>
+  <td><a href="{% url 'detail' item.product.id %}">{{item.product.name}}</a></td>
+  <td>${{item.product.price}}</td>
+  <td id="del_wish">
+    <button class="btn btn-danger show-form-delete" data-url="{% url 'delwishlist' item.id %}">
+      <span class="fa fa-trash"></span>
+      Delete
+    </button>
+  </td>
+</tr>
+<div class="modal fade" id="show_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    </div>
+  </div>
+</div>
+{% endfor %}

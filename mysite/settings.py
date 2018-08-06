@@ -44,7 +44,16 @@ INSTALLED_APPS = [
     'accounts',
     'about',
     'contact',
+    'cart',
+    'orders',
+    'wishlist',
+    'crispy_forms',
+    'paypal.standard.ipn',
+    'payment',
+    'ckeditor'
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,7 +66,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mysite.urls'
-
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -69,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mysite.dataToBase.base',
             ],
         },
     },
@@ -128,6 +138,14 @@ USE_L10N = True
 USE_TZ = True
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' # mail service smtp
+EMAIL_HOST_USER = 'dattx328@gmail.com' # email id
+EMAIL_HOST_PASSWORD = 'chjnhladat' #password
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
@@ -141,3 +159,10 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 SITE_ID = 1
+
+CART_SESSION_ID = 'cart'
+# DATE_INPUT_FORMATS = ['%d/%m/%Y']
+
+# django-paypal settings
+PAYPAL_RECEIVER_EMAIL = 'dat26061994@gmail.com'
+PAYPAL_TEST = True
