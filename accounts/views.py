@@ -129,11 +129,12 @@ def ordersInfor(request):
 
 @login_required(login_url="login")
 def orderDetail(request,order_id):
+    order = Order.objects.get(id=order_id)
     try:
         orderItems = OrderItem.objects.select_related('order').select_related('product').filter(order_id=order_id)
     except OrderItem.DoesNotExist:
         return None
-    return render(request,'orderDetail.html',{'BASE_URL':BASE_URL,'orders':orderItems})
+    return render(request,'orderDetail.html',{'BASE_URL':BASE_URL,'order':order,'orderItems':orderItems})
 @login_required(login_url="login")
 def wishlist(request):
     try:
