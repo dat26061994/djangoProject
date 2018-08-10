@@ -1,0 +1,12 @@
+library install
+- https://pypi.org/project/django-multiselectfield/
+pip install django-multiselectfield
+
+- http://django-crispy-forms.readthedocs.io/en/latest/install.html
+install --upgrade django-crispy-forms
+
+- http://django-paypal.readthedocs.io/en/stable/
+install django-paypal
+
+- http://django-ckeditor.readthedocs.io/en/latest/
+pip install django-ckeditor
